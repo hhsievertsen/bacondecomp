@@ -34,12 +34,18 @@ output$distPlot <- renderPlot({                                         # Return
             })
       output$RegSum2 <- renderPrint(summary(beta_twowayDD))              # Post output from regression
       df_bacon <- bacon(y ~ D,data = df,id_var = "id",time_var = "t")    # Bacon decomp
+      if (T2!=T3){
       df_bacon<-df_bacon%>%
-          mutate(type=ifelse(treated==11&untreated==99999,"Group 2 as treated vs never treated.",
-                      ifelse(treated==21&untreated==99999,"Group 3 as treated vs never treated.",
-                      ifelse(treated==21&untreated==11,"Group 3 as treated vs group 2 as control.",
-                             "Group 2 as treated vs group 3 as control." ))))%>%
+          mutate(type=ifelse(row_number()==1,"Group 2 as treated vs never treated.",
+                      ifelse(row_number()==2,"Group 3 as treated vs never treated.",
+                      ifelse(row_number()==3,"Group 3 as treated vs group 2 as control.",
+                      "Group 2 as treated vs group 3 as control." ))))%>%
           select(-treated,-untreated)
+      }
+      else{
+          df_bacon<-df_bacon%>%
+             select(-treated,-untreated)  
+      }
         output$RegSum1 <- renderPrint(                                   # Post Bacon decomposition
             df_bacon  )
         # Create chart for illustration
