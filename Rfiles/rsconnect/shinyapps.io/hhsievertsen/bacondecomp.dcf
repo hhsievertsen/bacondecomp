@@ -1,0 +1,12 @@
+name: bacondecomp
+title: bacondecomp
+username:
+account: hhsievertsen
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2287855
+bundleId: 3138967
+url: https://hhsievertsen.shinyapps.io/bacondecomp/
+when: 1589315389.69276
+asMultiple: FALSE
+asStatic: FALSE
