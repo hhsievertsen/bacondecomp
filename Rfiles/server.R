@@ -50,7 +50,7 @@ output$distPlot <- renderPlot({                                         # Return
             df_bacon  )
         # Create chart for illustration
         ggplot(df,aes(x=t,y=y,colour=as.factor(G)))+geom_jitter(alpha=0.2)+
-            geom_line(aes(x=t,y=ybar),size=2) +
+            geom_step(aes(x=t,y=ybar),size=2) +
             theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                   panel.background = element_blank(), axis.line = element_line(colour = "black"),
                   legend.position="top",legend.text = element_text(size=10, 
