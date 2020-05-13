@@ -5,8 +5,8 @@ account: hhsievertsen
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2287855
-bundleId: 3138967
+bundleId: 3141039
 url: https://hhsievertsen.shinyapps.io/bacondecomp/
-when: 1589315389.69276
+when: 1589359862.24308
 asMultiple: FALSE
 asStatic: FALSE

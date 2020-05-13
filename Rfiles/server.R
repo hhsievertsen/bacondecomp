@@ -53,6 +53,7 @@ output$distPlot <- renderPlot({                                         # Return
       }
         output$RegSum1 <- renderPrint(                                   # Post Bacon decomposition
             df_bacon_clean  )
+        # Added by 	MatthieuStigler
         df_bacon_w <- df_bacon %>% 
           mutate(control = ifelse(untreated==99999, "DD, control= Untreated", "DD, control= Switcher"),
                  Group = ifelse(treated==T2+1, "2", "3")) %>% 
