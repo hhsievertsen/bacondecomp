@@ -15,6 +15,10 @@ output$distPlot <- renderPlot({                                         # Return
         mt3=(1+input$group3timeeffect)                                  # Treatment effect growth rate  group 3
         G<-3                                                            # Groups
         N<-30                                                           # Time periods
+        ATT1 <- input$group2treatmenteffect  *mt2^(T-T2)
+        ATT2 <- input$group3treatmenteffect  *mt3^(T-T3)
+        ATT_df <- tibble(Group = c("2", "3"),
+                         ATT = c(ATT1, ATT2)) 
         # Simulate data
         df<-tibble(id=rep(1:(N*G),T),                                   # id variable 1 2 3 ... 1 2 3 
                    t=rep(1:T,each=(N*G)))%>%                            # time variable 1 1 1 1 .... 2 2 2
@@ -35,19 +39,32 @@ output$distPlot <- renderPlot({                                         # Return
       output$RegSum2 <- renderPrint(summary(beta_twowayDD))              # Post output from regression
       df_bacon <- bacon(y ~ D,data = df,id_var = "id",time_var = "t")    # Bacon decomp
       if (T2!=T3){
-      df_bacon<-df_bacon%>%
+      df_bacon_clean<-df_bacon%>%
           mutate(type=ifelse(row_number()==1,"Group 2 as treated vs never treated.",
                       ifelse(row_number()==2,"Group 3 as treated vs never treated.",
                       ifelse(row_number()==3,"Group 3 as treated vs group 2 as control.",
                       "Group 2 as treated vs group 3 as control." ))))%>%
-          select(-treated,-untreated)
+          select(-treated,-untreated) %>% 
+        knitr::kable(digits = 3)
       }
       else{
-          df_bacon<-df_bacon%>%
+        df_bacon_clean<-df_bacon%>%
              select(-treated,-untreated)  
       }
         output$RegSum1 <- renderPrint(                                   # Post Bacon decomposition
-            df_bacon  )
+            df_bacon_clean  )
+        df_bacon_w <- df_bacon %>% 
+          mutate(control = ifelse(untreated==99999, "DD, control= Untreated", "DD, control= Switcher"),
+                 Group = ifelse(treated==T2+1, "2", "3")) %>% 
+          select(Group, control, estimate) %>% 
+          spread(control, estimate)
+
+        ATT_df_ests <- ATT_df %>% 
+          left_join(df_bacon_w, by = "Group") %>% 
+          knitr::kable(format = "markdown", digits = 3)
+        
+        output$RegSumATT <- renderPrint(                                   # Post Bacon decomposition
+          ATT_df_ests  )
         # Create chart for illustration
         ggplot(df,aes(x=t,y=y,colour=as.factor(G)))+geom_jitter(alpha=0.2)+
             geom_step(aes(x=t,y=ybar),size=2) +

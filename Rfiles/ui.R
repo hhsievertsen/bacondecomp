@@ -32,6 +32,8 @@ ui <- fluidPage(
            h4("The two-way fixed effects DD:"),uiOutput('DD'),
            h4("Goodman-Bacon decomposition:"),
            verbatimTextOutput(outputId = "RegSum1"),
+           h4("ATTs:"),
+           verbatimTextOutput(outputId = "RegSumATT"),
            h4("Regression output:"),
            verbatimTextOutput(outputId = "RegSum2"),
     ),
