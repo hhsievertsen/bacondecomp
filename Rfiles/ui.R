@@ -12,13 +12,13 @@ ui <- fluidPage(
            strong("Settings"),br(),br(),
            # Inputs
            numericInput(inputId= "seed",label="Set seed", 1909, min = 0, max = NA),
-           strong("Treatment effects"),br(),
+           h5("Treatment effects"),br(),br(),
            sliderInput(inputId = "group2treatmenteffect",label = "Treatment effect for group 2 (baseline):",min = 0,max = 3,value = 1.4,step=0.1),
            sliderInput(inputId = "group3treatmenteffect",label = "Treatment effect for group 3  (baseline):",min = 0,max = 3,value = 1.6,step=0.1),
-           strong("Time-varying treatment effects"),br(),
+           h5("Time-varying treatment effects"),br(),br(),
            sliderInput(inputId = "group2timeeffect",label = "Change in treatment effect over time for group 2 (growth rate):",min = -0.03,max = 0.03,value = 0.01,step=0.01),
            sliderInput(inputId = "group3timeeffect",label = "Change in treatment effect over time for group 3 (growth rate):",min = -0.03,max = 0.03,value = 0,step=0.01),
-           strong("Treatment timing"),br(),
+           h5("Treatment timing"),br(),br(),
            sliderInput(inputId = "group2treatment",label = "When does group 2 get treated?",min = 2,max = 28,value = 10),
            sliderInput(inputId = "group3treatment",label = "When does group 3 get treated?",min = 2,max = 28,value = 20),
            
@@ -61,7 +61,9 @@ ui <- fluidPage(
                     "* ",tags$a(href="https://cran.r-project.org/web/packages/bacondecomp/readme/README.html", "bacondecomp for R"),
                
                    br(),br(),
-                   "by Hans H. Sievertsen", tags$a(href="https://github.com/hhsievertsen/bacondecomp", "(source code)"),br(),
-                   "h.h.sievertsen@bristol.ac.uk"
+                   strong("Updates:"),br(),
+                   "- May 12, 2020: first version by Hans H. Sievertsen",br(),
+                   "- May 13, 2020: incorporated changes by Matthieu Stigler (https://matthieustigler.github.io/)",br(),br(),
+                   "Corrections and suggestions are very welcome (by e-mail: h.h.sievertsen@bristol.ac.uk or on github: https://github.com/hhsievertsen/bacondecomp)"
     )
    ))
