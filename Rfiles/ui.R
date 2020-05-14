@@ -2,7 +2,7 @@
 ui <- fluidPage(
     tags$head(
         tags$style(
-            HTML('body{font-size:11px;background-color:#FFFFFF} #RegSum1{font-size:9px}#RegSum2{font-size:9px}')
+            HTML('body{font-size:11px;background-color:#FFFFFF} #RegSum1{font-size:11px}#RegSum2{font-size:9px}')
         )
     ),
     # Sidebar for settings
@@ -31,11 +31,7 @@ ui <- fluidPage(
            plotOutput(outputId = "distPlot"),
            h4("The two-way fixed effects DD:"),uiOutput('DD'),
            h4("Goodman-Bacon decomposition:"),
-           verbatimTextOutput(outputId = "RegSum1"),
-           h4("ATTs:"),
-           verbatimTextOutput(outputId = "RegSumATT"),
-           h4("Regression output:"),
-           verbatimTextOutput(outputId = "RegSum2"),
+           tableOutput(outputId = "RegSum1")
     ),
     # Side bar with info
     fluidRow(column(3,
@@ -63,7 +59,11 @@ ui <- fluidPage(
                    br(),br(),
                    strong("Updates:"),br(),
                    "- May 12, 2020: first version by Hans H. Sievertsen",br(),
-                   "- May 13, 2020: incorporated changes by Matthieu Stigler (https://matthieustigler.github.io/)",br(),br(),
-                   "Corrections and suggestions are very welcome (by e-mail: h.h.sievertsen@bristol.ac.uk or on github: https://github.com/hhsievertsen/bacondecomp)"
+                   "- May 13, 2020: incorporated changes by Matthieu Stigler (https://matthieustigler.github.io/)",br(),
+                   "- May 14, 2020: corrected mistake in calculating ATT and updated table.",br(),br(),
+                   "Corrections and suggestions are very welcome (by e-mail: h.h.sievertsen@bristol.ac.uk or on github: https://github.com/hhsievertsen/bacondecomp)",br(),br(),br()
+                  ,
+                  strong("Regression output:"),
+                  verbatimTextOutput(outputId = "RegSum2"),
     )
    ))
