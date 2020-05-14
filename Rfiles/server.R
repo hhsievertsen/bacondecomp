@@ -15,19 +15,22 @@ output$distPlot <- renderPlot({                                         # Return
         mt2=(1+input$group2timeeffect)                                  # Treatment effect growth rate  group 2
         mt3=(1+input$group3timeeffect)                                  # Treatment effect growth rate  group 3
         G<-3                                                            # Groups
-        N<-30                                                           # Time periods
+        G1<-30
+        G2<-input$group2size
+        G3<-input$group3size
+        N<-G1+G2+G3   
         ATT1 <- input$group2treatmenteffect  *mt2^(T-T2)
         ATT2 <- input$group3treatmenteffect  *mt3^(T-T3)
  
         # Simulate data
-        df<-tibble(id=rep(1:(N*G),T),                                   # id variable 1 2 3 ... 1 2 3 
-                   t=rep(1:T,each=(N*G)))%>%                            # time variable 1 1 1 1 .... 2 2 2
-            mutate(G=ifelse(id<=N,1,ifelse(id>N&id<=(N*2),2,3)),        # Treated: D==1
+        df<-tibble(id=rep(1:(N),T),                                   # id variable 1 2 3 ... 1 2 3 
+                   t=rep(1:T,each=(N)))%>%                            # time variable 1 1 1 1 .... 2 2 2
+            mutate(G=ifelse(id<=G1,1,ifelse(id>G1&id<=(G1+G2),2,3)),       # Treated: D==1
                    D=ifelse(G==2&t>T2,1,ifelse(G==3&t>T3,1,0)),         # Post treatment indicator 
                    mean=ifelse(D==1&G==2,m2*mt2^(t-T2),                 # Treatment effect group 2 
                         ifelse(D==1&G==3,m3*mt3^(t-T3),                 # Treatment effect group 3
                                1)),                                     # Treatment effect group 1
-                   y=rnorm(n=N*G*T,mean=mean,sd=.1))%>%                 # outcome y
+                   y=rnorm(n=N*T,mean=mean,sd=.1))%>%                 # outcome y
             group_by(G,D)%>%                                            # Group by group times post treatment
             mutate(ybar=mean(y))                                        # Group means for chart
       # Estimation

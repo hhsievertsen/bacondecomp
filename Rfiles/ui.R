@@ -2,25 +2,27 @@
 ui <- fluidPage(
     tags$head(
         tags$style(
-            HTML('body{font-size:11px;background-color:#FFFFFF} #RegSum1{font-size:11px}#RegSum2{font-size:9px}')
+            HTML('body{font-size:11px;background-color:#FFFFFF} #RegSum1{font-size:11px}#RegSum2{font-size:9px}label{font-weight:normal}')
         )
     ),
     # Sidebar for settings
     column(3,
            # Settings
-           br(" "),br(),br(),
-           strong("Settings"),br(),br(),
+           strong("Settings"),br(),
            # Inputs
            numericInput(inputId= "seed",label="Set seed", 1909, min = 0, max = NA),
-           h5("Treatment effects"),br(),br(),
+           strong("Treatment effects"),
            sliderInput(inputId = "group2treatmenteffect",label = "Treatment effect for group 2 (baseline):",min = 0,max = 3,value = 1.4,step=0.1),
-           sliderInput(inputId = "group3treatmenteffect",label = "Treatment effect for group 3  (baseline):",min = 0,max = 3,value = 1.6,step=0.1),
-           h5("Time-varying treatment effects"),br(),br(),
-           sliderInput(inputId = "group2timeeffect",label = "Change in treatment effect over time for group 2 (growth rate):",min = -0.03,max = 0.03,value = 0.01,step=0.01),
-           sliderInput(inputId = "group3timeeffect",label = "Change in treatment effect over time for group 3 (growth rate):",min = -0.03,max = 0.03,value = 0,step=0.01),
-           h5("Treatment timing"),br(),br(),
+           sliderInput(inputId = "group3treatmenteffect",label = "Treatment effect for group 3 (baseline):",min = 0,max = 3,value = 1.6,step=0.1),br(),
+           strong("Time-varying treatment effects"),
+           sliderInput(inputId = "group2timeeffect",label = "Change in treatment effect over time for group 2:",min = -0.03,max = 0.03,value = 0.01,step=0.01),
+           sliderInput(inputId = "group3timeeffect",label = "Change in treatment effect over time for group 3:",min = -0.03,max = 0.03,value = 0,step=0.01),br(),
+           strong("Treatment timing"),
            sliderInput(inputId = "group2treatment",label = "When does group 2 get treated?",min = 2,max = 28,value = 10),
-           sliderInput(inputId = "group3treatment",label = "When does group 3 get treated?",min = 2,max = 28,value = 20),
+           sliderInput(inputId = "group3treatment",label = "When does group 3 get treated?",min = 2,max = 28,value = 20),br(),
+           strong("Group size"),
+           sliderInput(inputId = "group2size",label = "Size group 2?",min = 2,max = 100,value = 30),
+           sliderInput(inputId = "group3size",label = "Size group 3?",min = 2,max = 100,value = 30),
            
     ),
     # Main panel with results
@@ -36,13 +38,11 @@ ui <- fluidPage(
     # Side bar with info
     fluidRow(column(3,
                     # Explanation
-                  br(),br(),
-                  br(),br(),
                   strong("! Change settings in the panel on the left !"),br(), 
                   br(),
                     strong("Setup"),br(),
-                    "- 3 equally sized groups",br(),
-                    "- Group 1 is never treated",br(),
+                    "- 3 groups. Group 1 has a fixed size of 30.",br(),
+                    "- Group 1 is never treated.",br(),
                     "- Groups 2 & 3 get treated at some point (see left panel).",br(),
                     "- Treatment effects can vary across groups and over time (see left panel).",br(),
                     "- The two-way fixed effects DD  is estimated with felm() from the lfe package, by estimating equation (2) from Goodman-Bacon (2019):",br(),
