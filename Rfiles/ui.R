@@ -31,9 +31,8 @@ ui <- fluidPage(
            br(),"by Hans H. Sievertsen", tags$a(href="https://github.com/hhsievertsen/bacondecomp", "(source code)"),"(h.h.sievertsen@bristol.ac.uk)",br(),
            # chart
            plotOutput(outputId = "distPlot"),
-           h4("The two-way fixed effects DD:"),uiOutput('DD'),
-           h4("Goodman-Bacon decomposition:"),
-           tableOutput(outputId = "RegSum1")
+           tableOutput(outputId = "RegSum1"),br(),
+           "Notes: The DGP  for the overall ATT (first row) refers to the population weighted ATT across the two groups. The estimate for the overall ATT (first row) is the 2-way fixed effects estimate.)",
     ),
     # Side bar with info
     fluidRow(column(3,
@@ -60,7 +59,8 @@ ui <- fluidPage(
                    strong("Updates:"),br(),
                    "- May 12, 2020: first version by Hans H. Sievertsen",br(),
                    "- May 13, 2020: incorporated changes by Matthieu Stigler (https://matthieustigler.github.io/)",br(),
-                   "- May 14, 2020: corrected mistake in calculating ATT and updated table.",br(),br(),
+                   "- May 14, 2020: corrected my mistake in calculating ATT and updated table.",br(),
+                   "- May 17, 2020: added event study chart and DGP values to table.",br(),br(),
                    "Corrections and suggestions are very welcome (by e-mail: h.h.sievertsen@bristol.ac.uk or on github: https://github.com/hhsievertsen/bacondecomp)",br(),br(),br()
                   ,
                   strong("Regression output:"),
