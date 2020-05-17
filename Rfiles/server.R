@@ -58,17 +58,17 @@ output$distPlot <- renderPlot({
       df_bacon_att<-df_bacon%>%mutate(watt=weight*estimate)%>%
         group_by(treated)%>%summarise(weight=sum(weight),att=sum(watt))%>%
         mutate(estimate=att/weight,type = ifelse(treated==T2+1, "Group 2 ATT", "Group 3 ATT"),order=ifelse(treated==T2+1,2,5))%>%
-        select(type,estimate,weight,order)
+        mutate(weight=round(weight,3))%>%select(type,estimate,weight,order)
       # Append overall estimated ATT (two way FE)
       df_bacon_att<-rbind(df_bacon_att,
                           tibble(type="ATT",estimate=beta_twowayDD$beta[1,1],weight="",order=1))
     
 ##################################### Create overall table #########################################
       #Append DGP and ATTs
-      df_bacon_att<-merge(df_bacon_att,df_dgp,by=c("type","order"),all.x = TRUE)%>%
-        mutate(estimate=round(estimate,3),weight=round(estimate,3))
+      merged<-merge(df_bacon_att,df_dgp,by=c("type","order"),all.x = TRUE)%>%
+        mutate(estimate=round(estimate,3))
       #Append Goodman Decomp
-      df_disp<-rbind(df_bacon_clean,df_bacon_att)
+      df_disp<-rbind(df_bacon_clean,merged)
       # Final stuff
       df_disp<-df_disp%>%arrange(order)%>%select(type,ATT_DGP,population_weight,-order,estimate,weight)%>%
           mutate(weight=ifelse(row_number()==1,"",weight))
@@ -102,7 +102,7 @@ output$distPlot <- renderPlot({
           mutate(post=ifelse(time_to_treatment<1,0,1))%>%
           group_by(post)%>%mutate(ymean_prepost=mean(y))
         c2<-ggplot(df_es)+geom_jitter(aes(x=time_to_treatment,y=y,colour=as.factor(G)),alpha=0.2)+
-          geom_line(aes(x=time_to_treatment,y=ymean),size=.75,colour="grey")+
+          #geom_line(aes(x=time_to_treatment,y=ymean),size=.75,colour="grey")+
           geom_line(df_es%>%filter(post==0),mapping=aes(x=time_to_treatment,y=ymean_prepost),size=0.5,linetype="dashed")+
           geom_line(df_es%>%filter(post==1),mapping=aes(x=time_to_treatment,y=ymean_prepost),size=0.5,linetype="dashed")+
           geom_text(df_es%>%ungroup()%>%filter(row_number()==nrow(df_es))%>%mutate(label=paste("Post mean:",round(ymean_prepost,3))),
