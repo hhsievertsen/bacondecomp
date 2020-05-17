@@ -41,7 +41,7 @@ ui <- fluidPage(
     # Main panel with results
     column(6,
            h3("Illustration of 'Goodman-Bacon (2019): DD  with Variation in Treatment Timing' "),
-           br(),"by Hans H. Sievertsen", tags$a(href="https://github.com/hhsievertsen/bacondecomp", "(source code)"),"(h.h.sievertsen@bristol.ac.uk)",br(),
+           "by Hans H. Sievertsen", tags$a(href="https://github.com/hhsievertsen/bacondecomp", "(source code)"),"(h.h.sievertsen@bristol.ac.uk)",br(),br(),br(),
            # chart
            plotOutput(outputId = "distPlot"),
            tableOutput(outputId = "RegSum1"),br(),
