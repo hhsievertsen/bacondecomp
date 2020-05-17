@@ -86,7 +86,7 @@ output$distPlot <- renderPlot({
         #Append DGP 
         df_bacon_att<-merge(df_bacon_att,df_dgp,by=c("type","order"),all.x = TRUE)%>%
           mutate(estimate=round(estimate,3),weight=round(estimate,3))
-        df_disp<-rbind(df_bacon_clean,df_bacon_att)
+        df_disp<-rbind(df_bacon_att)
         df_disp<-df_disp%>%arrange(order)%>%select(type,ATT_DGP,-order,estimate,-population_weight,-weight)%>%filter(row_number()==1)
         a<-df_disp%>%
           knitr::kable("html",align = c("l","c","c","c","c","c"),col.names = c(" ","DGP",
@@ -96,13 +96,14 @@ output$distPlot <- renderPlot({
         output$RegSum1 <- renderPrint(                                   # Post Bacon decomposition
           a )
 ##################################### Event study 
+        
         # event study
         df_es<-df%>%mutate(time_to_treatment=ifelse(G==2,t-T2,ifelse(G==3,t-T3,NA)))
         df_es<-df_es%>%group_by(time_to_treatment)%>%mutate(ymean=mean(y)-1,y=y-1)%>%
           mutate(post=ifelse(time_to_treatment<1,0,1))%>%
           group_by(post)%>%mutate(ymean_prepost=mean(y))
         c2<-ggplot(df_es)+geom_jitter(aes(x=time_to_treatment,y=y,colour=as.factor(G)),alpha=0.2)+
-          #geom_line(aes(x=time_to_treatment,y=ymean),size=.75,colour="grey")+
+          geom_point(aes(x=time_to_treatment,y=ymean),size=4,colour="black",shape=1)+
           geom_line(df_es%>%filter(post==0),mapping=aes(x=time_to_treatment,y=ymean_prepost),size=0.5,linetype="dashed")+
           geom_line(df_es%>%filter(post==1),mapping=aes(x=time_to_treatment,y=ymean_prepost),size=0.5,linetype="dashed")+
           geom_text(df_es%>%ungroup()%>%filter(row_number()==nrow(df_es))%>%mutate(label=paste("Post mean:",round(ymean_prepost,3))),
@@ -110,7 +111,7 @@ output$distPlot <- renderPlot({
           theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                 panel.background = element_blank(), axis.line = element_line(colour = "black"),
                 plot.title = element_text(hjust = 0.5),
-                legend.position="none")+labs(y=expression(y[t]-y["t=-1"]))+labs(title="(b) Event study chart")
+                legend.position="none")+labs(y=expression(y[t]-y["t=-1"]))+labs(title="(b) Event study chart")+ scale_color_brewer(palette="Dark2")
         
       
 ##################################### Chart showing DDs  ##############################################
@@ -122,7 +123,7 @@ output$distPlot <- renderPlot({
                                                                    face="bold"),
                   legend.key=element_blank(),legend.title = element_text(size=10,face="bold"),
                   plot.title = element_text(hjust = 0.5))+
-            labs(colour="Group",title="(a) Outcome value (y) over time (t)  ")
+            labs(colour="Group",title="(a) Outcome value (y) over time (t)  ")+ scale_color_brewer(palette="Dark2")
         c1+c2
     })
     

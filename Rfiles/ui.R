@@ -1,9 +1,22 @@
 # Define UI for bacondecomp
+mycss <- "
+.irs-bar,
+.irs-bar-edge,
+.irs-single,
+.irs-grid-pol {
+  background: black;
+  border-color: black;
+},
+body{font-size:11px;background-color:#FFFFFF
+}
+#RegSum1{font-size:11px}
+#RegSum2{font-size:9px}
+label{font-weight:normal}
+
+"
 ui <- fluidPage(
     tags$head(
-        tags$style(
-            HTML('body{font-size:11px;background-color:#FFFFFF} #RegSum1{font-size:11px}#RegSum2{font-size:9px}label{font-weight:normal}')
-        )
+        tags$style(mycss)
     ),
     # Sidebar for settings
     column(3,
@@ -12,17 +25,17 @@ ui <- fluidPage(
            # Inputs
            numericInput(inputId= "seed",label="Set seed", 1909, min = 0, max = NA),
            strong("Treatment effects"),
-           sliderInput(inputId = "group2treatmenteffect",label = "Treatment effect for group 2 (baseline):",min = 0,max = 3,value = 1.4,step=0.1),
-           sliderInput(inputId = "group3treatmenteffect",label = "Treatment effect for group 3 (baseline):",min = 0,max = 3,value = 1.6,step=0.1),br(),
+           sliderInput(inputId = "group2treatmenteffect",label = "Group 2 (baseline):",min = 0,max = 3,value = 1.4,step=0.1, ticks = FALSE),
+           sliderInput(inputId = "group3treatmenteffect",label = "Group 3 (baseline):",min = 0,max = 3,value = 1.6,step=0.1, ticks = FALSE),br(),
            strong("Time-varying treatment effects"),
-           sliderInput(inputId = "group2timeeffect",label = "Change in treatment effect over time for group 2:",min = -0.03,max = 0.03,value = 0.02,step=0.01),
-           sliderInput(inputId = "group3timeeffect",label = "Change in treatment effect over time for group 3:",min = -0.03,max = 0.03,value = 0,step=0.01),br(),
+           sliderInput(inputId = "group2timeeffect",label = "Group 2 growth rate:",min = -0.03,max = 0.03,value = 0.02,step=0.01, ticks = FALSE),
+           sliderInput(inputId = "group3timeeffect",label = "Group 3 growth rate:",min = -0.03,max = 0.03,value = 0,step=0.01, ticks = FALSE),br(),
            strong("Treatment timing"),
-           sliderInput(inputId = "group2treatment",label = "When does group 2 get treated?",min = 2,max = 28,value = 15),
-           sliderInput(inputId = "group3treatment",label = "When does group 3 get treated?",min = 2,max = 28,value = 25),br(),
+           sliderInput(inputId = "group2treatment",label = "Group 2:",min = 2,max = 28,value = 15, ticks = FALSE),
+           sliderInput(inputId = "group3treatment",label = "Group 3:",min = 2,max = 28,value = 25, ticks = FALSE),br(),
            strong("Group size"),
-           sliderInput(inputId = "group2size",label = "Size group 2?",min = 2,max = 100,value = 30),
-           sliderInput(inputId = "group3size",label = "Size group 3?",min = 2,max = 100,value = 30),
+           sliderInput(inputId = "group2size",label = "Group 2:",min = 2,max = 100,value = 30, ticks = FALSE),
+           sliderInput(inputId = "group3size",label = "Group 3:",min = 2,max = 100,value = 30, ticks = FALSE),
            
     ),
     # Main panel with results
