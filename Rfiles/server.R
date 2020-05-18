@@ -99,7 +99,8 @@ output$distPlot <- renderPlot({
         
         # event study
         df_es<-df%>%mutate(time_to_treatment=ifelse(G==2,t-T2,ifelse(G==3,t-T3,NA)))
-        df_es<-df_es%>%group_by(time_to_treatment)%>%mutate(ymean=mean(y)-1,y=y-1)%>%
+        df_es<-df_es%>%group_by(time_to_treatment)%>%mutate(ymean=mean(y)-1)%>%
+          group_by(id)%>%mutate(y=ifelse(G==2,y-y[T2-1],ifelse(G==3,y=y-y[T3-1],NA)))%>%
           mutate(post=ifelse(time_to_treatment<1,0,1))%>%
           group_by(post)%>%mutate(ymean_prepost=mean(y))
         c2<-ggplot(df_es)+geom_jitter(aes(x=time_to_treatment,y=y,colour=as.factor(G)),alpha=0.2)+

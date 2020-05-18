@@ -45,7 +45,7 @@ ui <- fluidPage(
            # chart
            plotOutput(outputId = "distPlot"),
            tableOutput(outputId = "RegSum1"),br(),
-           "Notes: The DGP  for the overall ATT (first row) refers to the population weighted ATT across the two groups. The estimate for the overall ATT (first row) is the 2-way fixed effects estimate.)",
+           "Notes: The DGP  for the overall ATT (first row) refers to the population weighted ATT across the two groups. The estimate for the overall ATT (first row) is the 2-way fixed effects estimate.",
     ),
     # Side bar with info
     fluidRow(column(3,
