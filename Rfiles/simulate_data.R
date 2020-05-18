@@ -13,7 +13,7 @@ simulate_data<-function(seed,T2,T3,m2,m3,mt2,mt3,G2,G3){
   df<-tibble(id=rep(1:(N),T),                                     # Id variable 1 2 3 ... 1 2 3 
              t=rep(1:T,each=(N)))%>%                              # Time variable 1 1 1 1 .... 2 2 2
       mutate(G=ifelse(id<=G1,1,ifelse(id>G1&id<=(G1+G2),2,3)),    # Treated: D==1
-             D=ifelse(G==2&t>T2,1,ifelse(G==3&t>T3,1,0)),         # Post treatment indicator 
+             D=ifelse(G==2&t>=T2,1,ifelse(G==3&t>=T3,1,0)),         # Post treatment indicator 
              mean=ifelse(D==1&G==2,m2*mt2^(t-T2),                 # Treatment effect group 2 
                   ifelse(D==1&G==3,m3*mt3^(t-T3),                 # Treatment effect group 3
                               1)),                                # mean Y for untreated
