@@ -22,3 +22,4 @@ simulate_data<-function(seed,T2,T3,m2,m3,mt2,mt3,G2,G3){
     mutate(ybar=mean(y))                                          # Group means for chart
   return(df)
 }
+#df<-simulate_data(42,10,20,1,2,0,0,30,30)

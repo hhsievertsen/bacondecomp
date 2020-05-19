@@ -57,7 +57,7 @@ output$distPlot <- renderPlot({
       # Calculate group estimated ATT
       df_bacon_att<-df_bacon%>%mutate(watt=weight*estimate)%>%
         group_by(treated)%>%summarise(weight=sum(weight),att=sum(watt))%>%
-        mutate(estimate=att/weight,type = ifelse(treated==T2+1, "Group 2 ATT", "Group 3 ATT"),order=ifelse(treated==T2+1,2,5))%>%
+        mutate(estimate=att/weight,type = ifelse(treated==T2, "Group 2 ATT", "Group 3 ATT"),order=ifelse(treated==T2,2,5))%>%
         mutate(weight=round(weight,3))%>%select(type,estimate,weight,order)
       # Append overall estimated ATT (two way FE)
       df_bacon_att<-rbind(df_bacon_att,
